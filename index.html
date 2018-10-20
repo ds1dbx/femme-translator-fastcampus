@@ -15,8 +15,28 @@
     </div>
     <script src="./hangul.js"></script>
     <script>
-        console.log("하이하이")
+        function translate() {
+            console.log('go');
+            var originalArray = document.querySelector('textarea').value.split('');
+            var changedValue = originalArray.map(function(el) { 
+                var splitElement = Hangul.disassemble(el);
+                var isTargetLength = splitElement.length === 4;
+
+                if (isTargetLength && Hangul.isVowel(splitElement[1]) && Hangul.isVowel(splitElement[2])) {
+                    var tmp = splitElement[2];
+                    splitElement[2] = splitElement[3];
+                    splitElement[3] = tmp;
+                }
+
+                return Hangul.assemble(splitElement);
+            });
+            return changedValue.join();
+        }
+
+        document.querySelector('button').addEventListener('click', function() {
+            console.log('hey');
+            document.querySelector('.result').innerHTML = translate();
+        });
     </script>
-    
 </body>
 </html>
